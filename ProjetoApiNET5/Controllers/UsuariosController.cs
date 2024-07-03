@@ -41,5 +41,22 @@ namespace ProjetoApiNET5.Controllers
             }
         }
 
+        [HttpGet("get-jogos")]
+        public List<jogos> GetJogos()
+        {
+            var query = @"select * from jogos";
+
+            using (var conn = new SqlConnection("Server=PC-LUCAS; Database=BANCO01; User Id=sa; Password=Lucas30092004;"))
+            {
+                conn.Open();
+
+                var resp = conn.Query<jogos>(query).ToList();
+
+                return resp;
+            }
+        }
+
+
+
     }
 }

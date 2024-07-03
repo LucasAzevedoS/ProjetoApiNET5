@@ -27,7 +27,7 @@ namespace ProjetoApiNET5.Controllers
         }
 
         [HttpGet("get-usuarios-id/{id}")]
-        public List<usuarios> GetUsuariosId(int id)
+        public usuarios GetUsuariosId(int id)
         {   
             var query = @"select * from usuarios where id = @Id ";
 
@@ -35,9 +35,62 @@ namespace ProjetoApiNET5.Controllers
             {
                 conn.Open();
 
-                var resp = conn.Query<usuarios>(query, new { Id = id }).ToList();
+                var resp = conn.Query<usuarios>(query, new { Id = id }).FirstOrDefault();
 
                 return resp;
+            }
+        }
+
+        [HttpPost("post-usuarios")]
+        public void PostUsuarios(usuarios usuarios)
+        {
+            var query = @"insert into usuarios values(@Nome, @Email, @Idade, getdate())";
+
+            using (var conn = new SqlConnection("Server=PC-LUCAS; Database=BANCO01; User Id=sa; Password=Lucas30092004;"))
+            {
+                conn.Open();
+
+                conn.Query(query, new { 
+                    Nome = usuarios.nome ,
+                    Email = usuarios.email,
+                    Idade = usuarios.idade
+                }).ToList();
+            }
+        }
+
+        [HttpPut("put-usuarios")]
+        public void PutUsuarios(usuarios usuarios)
+        {
+            var query = @"update usuarios set
+	                        nome = @Nome,
+	                        email = @Email,
+	                        idade = @Idade
+                        where id = @Id ";
+
+            using (var conn = new SqlConnection("Server=PC-LUCAS; Database=BANCO01; User Id=sa; Password=Lucas30092004;"))
+            {
+                conn.Open();
+
+                conn.Query(query, new
+                {
+                    Id = usuarios.Id,
+                    Nome = usuarios.nome,
+                    Email = usuarios.email,
+                    Idade = usuarios.idade
+                }).ToList();
+            }
+        }
+
+        [HttpDelete("delete-usuarios-id/{id}")]
+        public void DeleteUsuariosId(int id)
+        {
+            var query = @"delete  from usuarios where id = @Id ";
+
+            using (var conn = new SqlConnection("Server=PC-LUCAS; Database=BANCO01; User Id=sa; Password=Lucas30092004;"))
+            {
+                conn.Open();
+
+                conn.Query(query, new { Id = id }).FirstOrDefault();
             }
         }
 

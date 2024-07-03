@@ -59,5 +59,32 @@ namespace ProjetoApiNET5.Controllers
             }
         }
 
+        [HttpPut("post-usuarios")]
+        public void PutUsuarios(usuarios usuarios)
+        {
+            var query = @"update usuarios set
+	                        nome = @Nomee,
+	                        email = @Email,
+	                        idade = @Idade,
+                            dt_cadastro = @Data
+                    where id = @Id ";
+
+            using (var conn = new SqlConnection("Server=PC-LUCAS; Database=BANCO01; User Id=sa; Password=Lucas30092004;"))
+            {
+                conn.Open();
+
+                conn.Query(query, new
+                {
+                    Id = usuarios.Id,
+                    Nome = usuarios.nome,
+                    Email = usuarios.email,
+                    Idade = usuarios.idade,
+                    Data = usuarios.dt_cadastro
+                }).FirstOrDefault();
+            }
+        }
+
+
+
     }
 }

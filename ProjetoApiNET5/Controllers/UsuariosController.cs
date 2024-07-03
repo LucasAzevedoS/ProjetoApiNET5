@@ -59,11 +59,11 @@ namespace ProjetoApiNET5.Controllers
             }
         }
 
-        [HttpPut("post-usuarios")]
+        [HttpPut("put-usuarios")]
         public void PutUsuarios(usuarios usuarios)
         {
             var query = @"update usuarios set
-	                        nome = @Nomee,
+	                        nome = @Nome,
 	                        email = @Email,
 	                        idade = @Idade,
                             dt_cadastro = @Data
@@ -81,6 +81,21 @@ namespace ProjetoApiNET5.Controllers
                     Idade = usuarios.idade,
                     Data = usuarios.dt_cadastro
                 }).FirstOrDefault();
+            }
+        }
+
+        [HttpDelete("delete-usuarios-id/{id}")]
+        public usuarios DeleteUsuariosId(int id)
+        {
+            var query = @"delete from usuarios where id = @Id ";
+
+            using (var conn = new SqlConnection("Server=PC-LUCAS; Database=BANCO01; User Id=sa; Password=Lucas30092004;"))
+            {
+                conn.Open();
+
+                var resp = conn.Query<usuarios>(query, new { Id = id }).FirstOrDefault();
+
+                return resp;
             }
         }
 

@@ -94,5 +94,23 @@ namespace ProjetoApiNET5.Controllers
                 return resp;
             }
         }
+
+        [HttpGet("get-usuariojogo-id/{usuario_id}")]
+        public List<UsuarioJogo> GetUsuarioJogo(int usuario_id)
+        {
+            var query = @"buscar_usuario_jogo @Id  ";
+
+            using (var conn = new SqlConnection("Server=PC-LUCAS; Database=BANCO01; User Id=sa; Password=Lucas30092004;"))
+            {
+                conn.Open();
+
+                var resp = conn.Query<UsuarioJogo>(query, new { Id = usuario_id }).ToList();
+
+                return resp;
+            }
+        }
+
+
+
     }
 }

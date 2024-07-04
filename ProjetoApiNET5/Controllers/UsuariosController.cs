@@ -65,8 +65,7 @@ namespace ProjetoApiNET5.Controllers
             var query = @"update usuarios set
 	                        nome = @Nome,
 	                        email = @Email,
-	                        idade = @Idade,
-                            dt_cadastro = @Data
+	                        idade = @Idade
                     where id = @Id ";
 
             using (var conn = new SqlConnection("Server=PC-LUCAS; Database=BANCO01; User Id=sa; Password=Lucas30092004;"))
@@ -79,7 +78,7 @@ namespace ProjetoApiNET5.Controllers
                     Nome = usuarios.nome,
                     Email = usuarios.email,
                     Idade = usuarios.idade,
-                    Data = usuarios.dt_cadastro
+
                 }).FirstOrDefault();
             }
         }

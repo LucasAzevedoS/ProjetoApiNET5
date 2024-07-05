@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ProjetoApiNET5
+namespace ProjetoApiNET5.Models
 {
     public class jogos
     {

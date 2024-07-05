@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ProjetoApiNET5.Models;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;

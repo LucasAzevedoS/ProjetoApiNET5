@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ProjetoApiNET5.Models;
+using ProjetoApiNET5.Services;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -12,94 +13,36 @@ namespace ProjetoApiNET5.Controllers
     [ApiController]
     public class UsuariosController : ControllerBase
     {
+        UsuariosServices _usuariosServices = new UsuariosServices();
+
         [HttpGet("get-usuarios")]
         public List<usuarios> GetUsuarios()
         {
-            var query = @"select * from usuarios";
-
-            using (var conn = new SqlConnection("Server=PC-LUCAS; Database=BANCO01; User Id=sa; Password=Lucas30092004;"))
-            {
-                conn.Open();
-
-                var resp = conn.Query<usuarios>(query).ToList();
-
-                return resp;
-            }
+            return _usuariosServices.GetUsuarios();
         }
 
         [HttpGet("get-usuarios-id/{id}")]
         public usuarios GetUsuariosId(int id)
-        {   
-            var query = @"select * from usuarios where id = @Id ";
-
-            using (var conn = new SqlConnection("Server=PC-LUCAS; Database=BANCO01; User Id=sa; Password=Lucas30092004;"))
-            {
-                conn.Open();
-
-                var resp = conn.Query<usuarios>(query, new { Id = id }).FirstOrDefault();
-
-                return resp;
-            }
+        {
+            return _usuariosServices.GetUsuariosId(id);
         }
 
         [HttpPost("post-usuarios")]
         public void PostUsuarios(usuarios usuarios)
         {
-            var query = @"insert into usuarios values(@Nome, @Email, @Idade, getdate())";
-
-            using (var conn = new SqlConnection("Server=PC-LUCAS; Database=BANCO01; User Id=sa; Password=Lucas30092004;"))
-            {
-                conn.Open();
-
-                conn.Query(query, new 
-                {
-                    Nome = usuarios.nome,
-                    Email = usuarios.email,
-                    Idade = usuarios.idade
-                }).FirstOrDefault();
-            }
+            _usuariosServices.PostUsuarios(usuarios);
         }
 
         [HttpPut("put-usuarios")]
         public void PutUsuarios(usuarios usuarios)
         {
-            var query = @"update usuarios set
-	                        nome = @Nome,
-	                        email = @Email,
-	                        idade = @Idade
-                    where id = @Id ";
-
-            using (var conn = new SqlConnection("Server=PC-LUCAS; Database=BANCO01; User Id=sa; Password=Lucas30092004;"))
-            {
-                conn.Open();
-
-                conn.Query(query, new
-                {
-                    Id = usuarios.Id,
-                    Nome = usuarios.nome,
-                    Email = usuarios.email,
-                    Idade = usuarios.idade,
-
-                }).FirstOrDefault();
-            }
+            _usuariosServices.PutUsuarios(usuarios);
         }
 
         [HttpDelete("delete-usuarios-id/{id}")]
         public usuarios DeleteUsuariosId(int id)
         {
-            var query = @"delete from usuarios where id = @Id ";
-
-            using (var conn = new SqlConnection("Server=PC-LUCAS; Database=BANCO01; User Id=sa; Password=Lucas30092004;"))
-            {
-                conn.Open();
-
-                var resp = conn.Query<usuarios>(query, new { Id = id }).FirstOrDefault();
-
-                return resp;
-            }
+            return  _usuariosServices.DeleteUsuariosId(id);
         }
-
-
-
     }
 }
